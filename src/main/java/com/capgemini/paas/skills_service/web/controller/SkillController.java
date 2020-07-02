@@ -1,10 +1,7 @@
 package com.capgemini.paas.skills_service.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +19,6 @@ import com.capgemini.paas.skills_service.model.SkillUserLinkId;
 import com.capgemini.paas.skills_service.model.User;
 import com.capgemini.paas.skills_service.model.dto.SkillDTO;
 import com.capgemini.paas.skills_service.model.dto.UserDTO;
-import com.capgemini.paas.skills_service.model.enums.Priority;
 import com.capgemini.paas.skills_service.model.enums.Proficiency;
 import com.capgemini.paas.skills_service.persistence.dao.SkillRepository;
 import com.capgemini.paas.skills_service.persistence.dao.SkillUserLinkRepository;

@@ -31,7 +31,7 @@ import lombok.ToString;
 @Getter @Setter @ToString @NoArgsConstructor @EqualsAndHashCode @AllArgsConstructor @Builder
 @DynamicUpdate
 @Table(name = "SKILL")
-public class Skill implements ObjectValidator{
+public class Skill implements ObjectValidator {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
