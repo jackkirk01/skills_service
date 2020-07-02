@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	​   <!-- Level: trace, debug, info, warn, error, fatal -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<springProperty scope="context" name="springAppName"
+		source="spring.application.name" />​
+​
+	<!-- You can override this to have a custom pattern -->
+	<property name="LOG_PATTERN"
+		value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LEVEL:-%5p}) [Service:${springAppName:-},TraceId:%X{X-B3-TraceId:-},SpanId:%X{X-B3-SpanId:-},ParentSpanId:%X{X-B3-ParentSpanId:-}] %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+	<!-- Appender to log to console -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!-- Minimum logging level to be presented in the console logs -->
+			<level>DEBUG</level>
+		</filter>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	
+	<if condition='${ON_PREM_DEPLOYMENT:-false}'>
+	    <then>
+	    
+	    	<property name="SPLUNK_LOG_PATTERN"
+				value='{
+					"event" : {
+						"container" : {
+							"container_name" : "${springAppName}"
+						},
+						"kubernetes" : {
+							"namespace_name" : "${ON_PREM_NAMESPACE}"
+						},
+						"data" : " %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LEVEL:-%5p}) [Service:${springAppName:-},TraceId:%X{X-B3-TraceId:-},SpanId:%X{X-B3-SpanId:-},ParentSpanId:%X{X-B3-ParentSpanId:-}] %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx} "
+					}
+				}' />
+	    
+	    	<!-- Appender to Splunk On-Prem -->
+	​
+			<appender name="https" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+		        <url>${ON_PREM_SPLUNK_SERVER}</url>
+		        <token>${ON_PREM_SPLUNK_TOKEN}</token>
+		        <source>http:docker</source>
+		        <index>${ON_PREM_SPLUNK_INDEX}</index>
+				<disableCertificateValidation>true</disableCertificateValidation>
+		        <messageFormat>JSON</messageFormat>
+		        <middleware>HttpEventCollectorUnitTestMiddleware</middleware>
+		        <layout class="ch.qos.logback.classic.PatternLayout">
+		            <pattern>${SPLUNK_LOG_PATTERN}</pattern>
+		        </layout>
+		    </appender>
+		    
+		    <logger name="splunk.logger" additivity="false" level="INFO">
+		        <appender-ref ref="https"/>
+		    </logger>
+	        
+	    </then>
+	</if>
+​
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+	
+</configuration>
