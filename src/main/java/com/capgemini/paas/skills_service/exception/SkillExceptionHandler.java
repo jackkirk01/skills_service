@@ -9,13 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.capgemini.paas.services.errorhandling.ServiceException;
-import com.capgemini.paas.services.errorhandling.persistence.DataNotFoundException;
-import com.capgemini.paas.services.errorhandling.persistence.EntityException;
-import com.capgemini.paas.services.errorhandling.web.BadRequestException;
-
-import com.capgemini.paas.services.commonutility.ServiceProperties;
-
 import net.logstash.logback.encoder.org.apache.commons.lang.exception.ExceptionUtils;
 
 @ControllerAdvice
@@ -31,7 +24,7 @@ public class SkillExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ServiceException> handlePersistenceNoData(DataNotFoundException ex, WebRequest request) {
 		
 		// Business specific logic goes here
-		return new ResponseEntity<>(generateServiceException(HttpStatus.NOT_FOUND, ex), ServiceProperties.generateBaggageHeaders(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(generateServiceException(HttpStatus.NOT_FOUND, ex), HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -39,7 +32,7 @@ public class SkillExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ServiceException> handleBadRequest(BadRequestException ex, WebRequest request) {
 
 		// Business specific logic goes here
-		return new ResponseEntity<>(generateServiceException(HttpStatus.BAD_REQUEST, ex), ServiceProperties.generateBaggageHeaders(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(generateServiceException(HttpStatus.BAD_REQUEST, ex), HttpStatus.BAD_REQUEST);
 		
 	}
 	
@@ -47,7 +40,7 @@ public class SkillExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ServiceException> handlePersistenceEntityException(EntityException ex, WebRequest request) {
 
 		// Business specific logic goes here
-		return new ResponseEntity<>(generateServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex), ServiceProperties.generateBaggageHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(generateServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex), HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
 	
@@ -58,7 +51,7 @@ public class SkillExceptionHandler extends ResponseEntityExceptionHandler {
 
 		LOGGER.error("ERROR - (" + message + ") (" + ExceptionUtils.getRootCauseMessage(ex) + "): " + ex.toString(), ex);
 		
-		return new ResponseEntity<>(new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.value(), message), ServiceProperties.generateBaggageHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.value(), message), HttpStatus.INTERNAL_SERVER_ERROR);
 		
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capgemini.paas.skills_service.exception.BadRequestException;
+import com.capgemini.paas.skills_service.exception.DataNotFoundException;
 import com.capgemini.paas.skills_service.model.Skill;
 import com.capgemini.paas.skills_service.model.SkillUserLink;
 import com.capgemini.paas.skills_service.model.SkillUserLinkId;
@@ -24,10 +27,6 @@ import com.capgemini.paas.skills_service.persistence.dao.SkillRepository;
 import com.capgemini.paas.skills_service.persistence.dao.SkillUserLinkRepository;
 import com.capgemini.paas.skills_service.persistence.dao.UserRepository;
 import com.capgemini.paas.skills_service.service.SkillService;
-
-import com.capgemini.paas.services.errorhandling.persistence.DataNotFoundException;
-import com.capgemini.paas.services.errorhandling.web.BadRequestException;
-import com.capgemini.paas.services.commonutility.ServiceProperties;
 
 @RestController
 @RequestMapping("/skills-tracker/v1/skills")
@@ -49,6 +48,7 @@ public class SkillController {
 	     super();
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<SkillDTO>> retrieveSkills() {
@@ -58,11 +58,12 @@ public class SkillController {
 		if (skills.size() == 0) {
 			throw new DataNotFoundException("No skills exist");
 		} else {
-			return new ResponseEntity<List<SkillDTO>>(skills, ServiceProperties.generateBaggageHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<SkillDTO>>(skills, HttpStatus.OK);
 		}
 		
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<SkillDTO> createSkill(@RequestBody Skill skill) {
@@ -105,12 +106,13 @@ public class SkillController {
 //		if (skillDto.equals(null)) {
 //			throw new DataNotFoundException("No skills exist");
 //		} else {
-			return new ResponseEntity<SkillDTO>(skillService.saveSkill(skill), ServiceProperties.generateBaggageHeaders(), HttpStatus.CREATED);
+			return new ResponseEntity<SkillDTO>(skillService.saveSkill(skill), HttpStatus.CREATED);
 //		}
 	
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT)
+	@CrossOrigin(origins = "http://localhost:8000")
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<SkillDTO> updateSkill(@RequestBody Skill skill) {
 		
@@ -121,11 +123,12 @@ public class SkillController {
 //		if (skills.size() == 0) {
 //			throw new DataNotFoundException("No skills exist");
 //		} else {
-		return new ResponseEntity<SkillDTO>(skillService.saveSkill(skill), ServiceProperties.generateBaggageHeaders(), HttpStatus.OK);
+		return new ResponseEntity<SkillDTO>(skillService.saveSkill(skill), HttpStatus.OK);
 //		}
 		
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Optional<SkillDTO>> retrieveSkillBasedOnId(@PathVariable("id") long id) {
@@ -135,11 +138,12 @@ public class SkillController {
 		if (!skillDto.isPresent()) {
 			throw new DataNotFoundException("Skill not found for ID: " + id);
 		} else {
-			return new ResponseEntity<Optional<SkillDTO>>(skillDto, ServiceProperties.generateBaggageHeaders(), HttpStatus.OK);
+			return new ResponseEntity<Optional<SkillDTO>>(skillDto, HttpStatus.OK);
 		}
 		
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void deleteSkill(@PathVariable("id") long id) {
@@ -153,7 +157,8 @@ public class SkillController {
 //		}
 		
 	}
-
+	
+	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<UserDTO>> getUsersBySkillId(@PathVariable("id") long id, @RequestParam(required = false) Optional<Proficiency> proficiency) {
@@ -165,7 +170,7 @@ public class SkillController {
 		} else if(usersDto.size() == 0) {
 			throw new DataNotFoundException("No users exist for ID: " + id);
 		} else {
-			return new ResponseEntity<List<UserDTO>>(usersDto, ServiceProperties.generateBaggageHeaders(), HttpStatus.OK);			
+			return new ResponseEntity<List<UserDTO>>(usersDto, HttpStatus.OK);			
 		}
 		
 	}

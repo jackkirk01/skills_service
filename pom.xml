@@ -79,24 +79,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.capgemini.paas.services</groupId>
-            <artifactId>common-errorhandling-service</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.capgemini.paas.services</groupId>
-            <artifactId>common-utility-service</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.capgemini.paas.services</groupId>
-            <artifactId>common-logging-service</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
         </dependency>
@@ -125,9 +107,9 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <!--  
+              
             <scope>test</scope>
-            -->
+            
         </dependency>
 
         <dependency>

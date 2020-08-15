@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capgemini.paas.services.errorhandling.persistence.DataNotFoundException;
+import com.capgemini.paas.skills_service.exception.DataNotFoundException;
 import com.capgemini.paas.skills_service.model.Skill;
 import com.capgemini.paas.skills_service.model.SkillUserLink;
 import com.capgemini.paas.skills_service.model.User;

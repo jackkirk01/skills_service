@@ -27,3 +27,5 @@ ini.cmd
 .vscode/*
 ini.cmd
 rbr.cmd
+
+.mvn/wrapper/
