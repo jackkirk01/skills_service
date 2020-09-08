@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,8 +24,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import net.minidev.json.JSONObject;
 
 import com.capgemini.paas.skills_service.model.Skill;
 import com.capgemini.paas.skills_service.model.SkillUserLink;
@@ -286,9 +281,7 @@ public class SkillTest {
 	public void testDeleteSkillById_NOT_FOUND () throws IOException {
 		
 		long id = 99999L;
-		
-		testRestTemplate.delete("/skills-tracker/v1/skills/" + id);
-		
+				
 		ResponseEntity<String> skillResponse = testRestTemplate.exchange("/skills-tracker/v1/skills/" + id, HttpMethod.DELETE, null, String.class);
 				
 		JsonNode root = mapper.readTree(skillResponse.getBody());
