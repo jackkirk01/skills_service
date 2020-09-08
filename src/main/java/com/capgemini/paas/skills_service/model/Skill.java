@@ -36,7 +36,7 @@ public class Skill implements ObjectValidator {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="SKILL_ID")
-	private long id;
+	private long skillId;
 	
 	@Size(max=50)
 	@NotNull

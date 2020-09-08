@@ -74,33 +74,33 @@ public class SkillController {
 		
 		skillService.saveSkill(skill);
 		
-		skill.setSkillUserLink(List.of(
-				skillUserLinkRepository.save(SkillUserLink.builder()
-						.skillUserLinkId(SkillUserLinkId.builder()
-								.skillId(1L)
-								.userId(1L)
-								.build())
-						.proficiency(Proficiency.EXPERIENCED)
-						.user(userRepository.save(User.builder()
-								.id(1)
-								.firstName("Jack")
-								.surname("Kirk")
-								.build()))
-						.build())
-				,
-				skillUserLinkRepository.save(SkillUserLink.builder()
-						.skillUserLinkId(SkillUserLinkId.builder()
-								.skillId(1L)
-								.userId(2L)
-								.build())
-						.proficiency(Proficiency.EXPERT)
-						.user(userRepository.save(User.builder()
-								.id(2)
-								.firstName("James")
-								.surname("Neate")
-								.build()))
-						.build())
-				));
+//		skill.setSkillUserLink(List.of(
+//				skillUserLinkRepository.save(SkillUserLink.builder()
+//						.skillUserLinkId(SkillUserLinkId.builder()
+//								.skillId(1L)
+//								.userId(1L)
+//								.build())
+//						.proficiency(Proficiency.EXPERIENCED)
+//						.user(userRepository.save(User.builder()
+//								.id(1)
+//								.firstName("Jack")
+//								.surname("Kirk")
+//								.build()))
+//						.build())
+//				,
+//				skillUserLinkRepository.save(SkillUserLink.builder()
+//						.skillUserLinkId(SkillUserLinkId.builder()
+//								.skillId(1L)
+//								.userId(2L)
+//								.build())
+//						.proficiency(Proficiency.EXPERT)
+//						.user(userRepository.save(User.builder()
+//								.id(2)
+//								.firstName("James")
+//								.surname("Neate")
+//								.build()))
+//						.build())
+//				));
 						
 //		
 //		if (skillDto.equals(null)) {
@@ -114,17 +114,19 @@ public class SkillController {
 	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<SkillDTO> updateSkill(@RequestBody Skill skill) {
+	public ResponseEntity<SkillDTO> updateSkill(@RequestBody Skill skill, @PathVariable("id") long id) {
 		
 		if(!skill.validate()) {
 			throw new BadRequestException();
 		}
 		
-//		if (skills.size() == 0) {
-//			throw new DataNotFoundException("No skills exist");
-//		} else {
-		return new ResponseEntity<SkillDTO>(skillService.saveSkill(skill), HttpStatus.OK);
-//		}
+		Optional<SkillDTO> skillDto = skillService.getSkillById(id);
+		
+		if (!skillDto.isPresent()) {
+			throw new DataNotFoundException("Skill not found for ID: " + id);
+		} else {
+			return new ResponseEntity<SkillDTO>(skillService.saveSkill(skill), HttpStatus.OK);
+		}
 		
 	}
 	
@@ -146,15 +148,16 @@ public class SkillController {
 	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public void deleteSkill(@PathVariable("id") long id) {
+	public HttpStatus deleteSkill(@PathVariable("id") long id) {
 		
-		skillService.deleteSkill(id);
+		Optional<SkillDTO> skillDto = skillService.getSkillById(id);
 		
-//		if (!skill.isPresent()) {
-//			throw new DataNotFoundException("Skill not found for ID: " + id);
-//		} else {
-//			return HttpStatus.OK;
-//		}
+		if (!skillDto.isPresent()) {
+			throw new DataNotFoundException("Skill not found for ID: " + id);
+		} else {
+			skillService.deleteSkill(id);
+			return HttpStatus.OK;
+		}
 		
 	}
 	

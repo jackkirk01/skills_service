@@ -82,7 +82,7 @@ public class SkillServiceImpl implements SkillService {
 				User user = link.getUser();
 				
 				UserDTO userDto = UserDTO.builder()
-						.userId(user.getId())
+						.userId(user.getUserId())
 						.firstName(user.getFirstName())
 						.surname(user.getSurname())
 						.proficiency(link.getProficiency())
@@ -112,7 +112,7 @@ public class SkillServiceImpl implements SkillService {
 				User user = link.getUser();
 				
 				usersDto.add(UserDTO.builder()
-						.userId(user.getId())
+						.userId(user.getUserId())
 						.firstName(user.getFirstName())
 						.surname(user.getSurname())
 						.proficiency(link.getProficiency())
@@ -122,7 +122,7 @@ public class SkillServiceImpl implements SkillService {
 		}
 		
 		SkillDTO skillDto = SkillDTO.builder()
-				.skillId(skill.getId())
+				.skillId(skill.getSkillId())
 				.name(skill.getName())
 				.priority(skill.getPriority())
 				.type(skill.getType())

@@ -30,7 +30,7 @@ public class User implements ObjectValidator {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="USER_ID")
-	private long id;
+	private long userId;
 	
 	@Size(max=20)
 	@NotNull
