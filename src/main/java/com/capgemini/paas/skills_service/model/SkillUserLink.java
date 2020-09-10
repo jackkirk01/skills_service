@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -23,6 +24,7 @@ import lombok.ToString;
 @Entity
 @Getter @Setter @ToString @NoArgsConstructor @EqualsAndHashCode @AllArgsConstructor @Builder
 @DynamicUpdate
+@Table(name = "SKILL_USER_LINK")
 public class SkillUserLink {
 	
 	@EmbeddedId

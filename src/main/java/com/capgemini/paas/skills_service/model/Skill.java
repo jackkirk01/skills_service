@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,7 +35,8 @@ import lombok.ToString;
 public class Skill implements ObjectValidator {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="skill_id_sequence")
+	@SequenceGenerator(name="skill_id_sequence", sequenceName="skill_id_sequence",allocationSize=1)	
 	@Column(name="SKILL_ID")
 	private long skillId;
 	

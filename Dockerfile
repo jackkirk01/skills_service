@@ -15,4 +15,8 @@ WORKDIR /opt/target
 
 RUN mv *.jar app.jar
 
+ADD ojdbc10-full.tar.gz /opt
+
+RUN chmod 777 *
+
 CMD ["java","-jar","app.jar"]
