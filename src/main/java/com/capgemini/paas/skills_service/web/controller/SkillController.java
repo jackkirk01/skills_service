@@ -45,7 +45,7 @@ public class SkillController {
 	     super();
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<SkillDTO>> retrieveSkills() {
@@ -60,7 +60,7 @@ public class SkillController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<SkillDTO> createSkill(@RequestBody Skill skill) {
@@ -108,7 +108,7 @@ public class SkillController {
 	
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<SkillDTO> updateSkill(@RequestBody Skill skill, @PathVariable("id") long id) {
@@ -127,7 +127,7 @@ public class SkillController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Optional<SkillDTO>> retrieveSkillBasedOnId(@PathVariable("id") long id) {
@@ -142,7 +142,7 @@ public class SkillController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public HttpStatus deleteSkill(@PathVariable("id") long id) {
@@ -158,7 +158,7 @@ public class SkillController {
 		
 	}
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/{id}/users", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<UserDTO>> getUsersBySkillId(@PathVariable("id") long id, @RequestParam(required = false) Optional<Proficiency> proficiency) {
